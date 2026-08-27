@@ -168,6 +168,62 @@ export default {
     },
   },
 
+  // Backlog
+  backlog: {
+    title: "Backlog Management",
+    description: "Track and resolve inventory shortages",
+    highPriority: "High Priority",
+    mediumPriority: "Medium Priority",
+    lowPriority: "Low Priority",
+    totalItems: "Total Backlog Items",
+    items: {
+      title: "Backlog Items",
+      noItems: "No backlog items - all orders can be fulfilled!",
+      orderId: "Order ID",
+      sku: "SKU",
+      itemName: "Item Name",
+      quantityNeeded: "Quantity Needed",
+      quantityAvailable: "Quantity Available",
+      shortage: "Shortage",
+      daysDelayed: "Days Delayed",
+      priority: "Priority",
+      unitsShort: "units short",
+      days: "days",
+    },
+  },
+
+  // Reports
+  reports: {
+    title: "Performance Reports",
+    description: "View quarterly performance metrics and monthly trends",
+    noData: "No data available for selected filters",
+    quarterlyPerformance: {
+      title: "Quarterly Performance",
+      quarter: "Quarter",
+      totalOrders: "Total Orders",
+      totalRevenue: "Total Revenue",
+      avgOrderValue: "Avg Order Value",
+      fulfillmentRate: "Fulfillment Rate",
+    },
+    monthlyTrend: {
+      title: "Monthly Revenue Trend",
+    },
+    monthOverMonth: {
+      title: "Month-over-Month Analysis",
+      month: "Month",
+      orders: "Orders",
+      revenue: "Revenue",
+      change: "Change",
+      growthRate: "Growth Rate",
+    },
+    summary: {
+      totalRevenueYTD: "Total Revenue (YTD)",
+      avgMonthlyRevenue: "Avg Monthly Revenue",
+      totalOrdersYTD: "Total Orders (YTD)",
+      bestQuarter: "Best Performing Quarter",
+    },
+  },
+
   // Demand Forecast
   demand: {
     title: "Demand Forecast",
