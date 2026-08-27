@@ -29,7 +29,7 @@ responsive behavior. This skill plans; `vue-expert` implements.
 sidebar responsiveness (mobile drawer).
 
 **Out of scope:** new features, new business logic, API/data changes. The
-only routing change this skill ever makes is *nav-surfacing* an already-
+only routing change this skill ever makes is _nav-surfacing_ an already-
 existing, unregistered view (e.g. a `views/*.vue` file with no route) if the
 user asks for it — never scaffolding a brand-new view or endpoint.
 
@@ -130,11 +130,11 @@ Design a new sidebar component (e.g. `AppSidebar.vue`) with:
 - Change the root layout's markup from a vertical stack (header → content) to
   a horizontal shell: `.app-shell { display: flex; min-height: 100vh; }`
   containing the sidebar and a `.app-main { flex: 1; display: flex;
-  flex-direction: column; min-width: 0; }` content column.
+flex-direction: column; min-width: 0; }` content column.
 - Delete the old top-nav markup and its CSS rules entirely once the sidebar
   replaces it — don't leave dead styles behind.
 - Sidebar: `position: sticky; top: 0; height: 100vh; align-self: flex-start;
-  flex-shrink: 0;` on desktop, so the whole page scrolls together (avoid a
+flex-shrink: 0;` on desktop, so the whole page scrolls together (avoid a
   nested scroll container unless the app already uses one elsewhere).
 - **Recalculate every sticky/fixed offset flagged in Step 1.9** against the
   new shell (most commonly this means changing a `top: <old-header-height>px`

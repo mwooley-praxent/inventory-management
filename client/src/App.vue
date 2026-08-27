@@ -30,96 +30,99 @@
 </template>
 
 <script>
-import { ref, onMounted, computed } from 'vue'
-import { api } from './api'
-import { useAuth } from './composables/useAuth'
-import { useI18n } from './composables/useI18n'
-import FilterBar from './components/FilterBar.vue'
-import ProfileDetailsModal from './components/ProfileDetailsModal.vue'
-import TasksModal from './components/TasksModal.vue'
-import AppSidebar from './components/AppSidebar.vue'
+import { ref, onMounted, computed } from "vue";
+import { api } from "./api";
+import { useAuth } from "./composables/useAuth";
+import { useI18n } from "./composables/useI18n";
+import FilterBar from "./components/FilterBar.vue";
+import ProfileDetailsModal from "./components/ProfileDetailsModal.vue";
+import TasksModal from "./components/TasksModal.vue";
+import AppSidebar from "./components/AppSidebar.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     FilterBar,
     ProfileDetailsModal,
     TasksModal,
-    AppSidebar
+    AppSidebar,
   },
   setup() {
-    const { currentUser } = useAuth()
-    const { t } = useI18n()
-    const showProfileDetails = ref(false)
-    const showTasks = ref(false)
-    const apiTasks = ref([])
+    const { currentUser } = useAuth();
+    const { t } = useI18n();
+    const showProfileDetails = ref(false);
+    const showTasks = ref(false);
+    const apiTasks = ref([]);
 
     // Merge mock tasks from currentUser with API tasks
     const tasks = computed(() => {
-      return [...currentUser.value.tasks, ...apiTasks.value]
-    })
+      return [...currentUser.value.tasks, ...apiTasks.value];
+    });
 
     const loadTasks = async () => {
       try {
-        apiTasks.value = await api.getTasks()
+        apiTasks.value = await api.getTasks();
       } catch (err) {
-        console.error('Failed to load tasks:', err)
+        console.error("Failed to load tasks:", err);
       }
-    }
+    };
 
     const addTask = async (taskData) => {
       try {
-        const newTask = await api.createTask(taskData)
+        const newTask = await api.createTask(taskData);
         // Add new task to the beginning of the array
-        apiTasks.value.unshift(newTask)
+        apiTasks.value.unshift(newTask);
       } catch (err) {
-        console.error('Failed to add task:', err)
+        console.error("Failed to add task:", err);
       }
-    }
+    };
 
     const deleteTask = async (taskId) => {
       try {
         // Check if it's a mock task (from currentUser)
-        const isMockTask = currentUser.value.tasks.some(t => t.id === taskId)
+        const isMockTask = currentUser.value.tasks.some((t) => t.id === taskId);
 
         if (isMockTask) {
           // Remove from mock tasks
-          const index = currentUser.value.tasks.findIndex(t => t.id === taskId)
+          const index = currentUser.value.tasks.findIndex(
+            (t) => t.id === taskId,
+          );
           if (index !== -1) {
-            currentUser.value.tasks.splice(index, 1)
+            currentUser.value.tasks.splice(index, 1);
           }
         } else {
           // Remove from API tasks
-          await api.deleteTask(taskId)
-          apiTasks.value = apiTasks.value.filter(t => t.id !== taskId)
+          await api.deleteTask(taskId);
+          apiTasks.value = apiTasks.value.filter((t) => t.id !== taskId);
         }
       } catch (err) {
-        console.error('Failed to delete task:', err)
+        console.error("Failed to delete task:", err);
       }
-    }
+    };
 
     const toggleTask = async (taskId) => {
       try {
         // Check if it's a mock task (from currentUser)
-        const mockTask = currentUser.value.tasks.find(t => t.id === taskId)
+        const mockTask = currentUser.value.tasks.find((t) => t.id === taskId);
 
         if (mockTask) {
           // Toggle mock task status
-          mockTask.status = mockTask.status === 'pending' ? 'completed' : 'pending'
+          mockTask.status =
+            mockTask.status === "pending" ? "completed" : "pending";
         } else {
           // Toggle API task
-          const updatedTask = await api.toggleTask(taskId)
-          const index = apiTasks.value.findIndex(t => t.id === taskId)
+          const updatedTask = await api.toggleTask(taskId);
+          const index = apiTasks.value.findIndex((t) => t.id === taskId);
           if (index !== -1) {
-            apiTasks.value[index] = updatedTask
+            apiTasks.value[index] = updatedTask;
           }
         }
       } catch (err) {
-        console.error('Failed to toggle task:', err)
+        console.error("Failed to toggle task:", err);
       }
-    }
+    };
 
-    onMounted(loadTasks)
+    onMounted(loadTasks);
 
     return {
       t,
@@ -128,10 +131,10 @@ export default {
       tasks,
       addTask,
       deleteTask,
-      toggleTask
-    }
-  }
-}
+      toggleTask,
+    };
+  },
+};
 </script>
 
 <style>
@@ -149,15 +152,30 @@ export default {
   --color-brand-hover: #1d4ed8;
   --color-brand-focus: #3b82f6;
   --color-brand-surface: #eff6ff;
-  --color-success: #059669; --color-success-bg: #d1fae5; --color-success-text: #065f46;
-  --color-warning: #ea580c; --color-warning-bg: #fed7aa; --color-warning-text: #92400e;
-  --color-danger: #dc2626;  --color-danger-bg: #fecaca;  --color-danger-text: #991b1b;
-  --color-info: #2563eb;    --color-info-bg: #dbeafe;    --color-info-text: #1e40af;
+  --color-success: #059669;
+  --color-success-bg: #d1fae5;
+  --color-success-text: #065f46;
+  --color-warning: #ea580c;
+  --color-warning-bg: #fed7aa;
+  --color-warning-text: #92400e;
+  --color-danger: #dc2626;
+  --color-danger-bg: #fecaca;
+  --color-danger-text: #991b1b;
+  --color-info: #2563eb;
+  --color-info-bg: #dbeafe;
+  --color-info-text: #1e40af;
 
-  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
-  --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
 
-  --radius-sm: 6px; --radius-md: 8px; --radius-lg: 12px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
 
   --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
   --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
@@ -179,7 +197,16 @@ export default {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    sans-serif;
   background: var(--color-bg-canvas);
   color: #1e293b;
   -webkit-font-smoothing: antialiased;
